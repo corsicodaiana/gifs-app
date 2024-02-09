@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Presentation\Http\Actions\BuscarGifsAction;
+use Presentation\Http\Actions\BuscarGifPorIdAction;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/crearUsuario', [AuthController::class, 'createUser']);
+Route::post('/login', [AuthController::class, 'loginUser']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/buscarGifs', [BuscarGifsAction::class, 'execute']);
+    Route::post('/buscarGifPorId', [BuscarGifPorIdAction::class, 'execute']);
 });
